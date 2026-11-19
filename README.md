@@ -4,6 +4,13 @@ Aplicacion Java con Swing para generar numeros pseudoaleatorios y ejecutar prueb
 
 La interfaz utiliza una presentacion institucional verde, tablas legibles y paneles separados para datos, operaciones y pruebas.
 
+## Solucion si IntelliJ no muestra el boton de ejecutar
+
+1. Abra el proyecto como proyecto desde la carpeta `SimulacionSau`.
+2. Seleccione **Archivo > Configuración del proyecto > SDK** y elija una instalación JDK.
+3. Marque `src` como carpeta de fuentes si IntelliJ no lo reconoce.
+4. Use la configuración **Ejecutar Simulación** o ejecute la clase `simulacion.Main`.
+
 ## Metodos de generacion
 
 - Congruencial aditivo

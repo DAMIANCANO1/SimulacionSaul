@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Ejecutar Simulación" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="simulacion.Main" />
+    <module name="SimulacionSau" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+  </configuration>
+</component>
