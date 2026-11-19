@@ -38,6 +38,12 @@ public class CongruencialLineal {
             JOptionPane.showMessageDialog(null, "X0, a y c no pueden ser negativos; m debe ser mayor que 1 y X0 menor que m.");
             return null;
         }
+        if (a > (Long.MAX_VALUE - c) / Math.max(1, m - 1)) {
+            JOptionPane.showMessageDialog(null, "Los valores son demasiado grandes para realizar la operación segura.");
+            return null;
+        }
+        a = a % m;
+        c = c % m;
         ArrayList<Double> valores = new ArrayList<Double>();
         ArrayList<Long> enteros = new ArrayList<Long>();
         StringBuilder detalle = new StringBuilder();

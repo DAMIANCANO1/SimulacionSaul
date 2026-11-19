@@ -44,6 +44,9 @@ public class CongruencialCuadratico {
             JOptionPane.showMessageDialog(null, "Valores fuera de rango o condiciones incumplidas.");
             return null;
         }
+        a = a % m;
+        b = b % m;
+        c = c % m;
         ArrayList<Double> valores = new ArrayList<Double>();
         ArrayList<Long> enteros = new ArrayList<Long>();
         StringBuilder detalle = new StringBuilder();

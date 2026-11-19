@@ -37,7 +37,12 @@ public class CongruencialMultiplicativo {
             JOptionPane.showMessageDialog(null, "X debe ser menor que m = 2^G.");
             return null;
         }
+        if (k > (Long.MAX_VALUE - 3L) / 8L) {
+            JOptionPane.showMessageDialog(null, "El valor de K es demasiado grande.");
+            return null;
+        }
         long a = 3L + 8L * k;
+        a = a % m;
         ArrayList<Long> vistos = new ArrayList<Long>();
         ArrayList<Double> valores = new ArrayList<Double>();
         ArrayList<Long> enteros = new ArrayList<Long>();
