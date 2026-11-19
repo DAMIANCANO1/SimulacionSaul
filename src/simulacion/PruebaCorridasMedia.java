@@ -2,10 +2,9 @@ package simulacion;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 public class PruebaCorridasMedia {
-    public static String ejecutar(ArrayList<Double> datos) {
+    public static String ejecutar(ArrayList<Double> datos, int opcion) {
         if (datos == null) {
             return "No hay datos para realizar la prueba.";
         }
@@ -34,11 +33,7 @@ public class PruebaCorridasMedia {
             }
         }
         if (n1 == 0 || n0 == 0) {
-            return "Debe existir al menos un numero arriba y uno abajo de 0.5.";
-        }
-        int opcion = pedirNivel();
-        if (opcion == -1) {
-            return null;
+            return "Debe existir al menos un número arriba y uno abajo de 0.5.";
         }
         int corridas = 1;
         for (int i = 1; i < secuencia.length(); i++) {
@@ -65,31 +60,14 @@ public class PruebaCorridasMedia {
         texto.append("\nVarianza = ").append(formato.format(varianza));
         texto.append("\nZ = ").append(formato.format(calculada));
         texto.append("\nNivel = ").append(niveles[opcion]);
-        texto.append("\nLimites = -").append(formato.format(criticos[opcion])).append(" y ")
+        texto.append("\nLímites = -").append(formato.format(criticos[opcion])).append(" y ")
                 .append(formato.format(criticos[opcion]));
-        texto.append("\n\nH0: los numeros son independientes.");
+        texto.append("\n\nH0: los números son independientes.");
         if (calculada >= -criticos[opcion] && calculada <= criticos[opcion]) {
             texto.append("\nNo se rechaza H0.");
         } else {
             texto.append("\nSe rechaza H0.");
         }
         return texto.toString();
-    }
-
-    private static int pedirNivel() {
-        String texto = JOptionPane.showInputDialog(null,
-                "Seleccione el nivel:\n1: 80%\n2: 85%\n3: 90%\n4: 95%\n5: 99%");
-        if (texto == null) {
-            return -1;
-        }
-        try {
-            int opcion = Integer.parseInt(texto.trim());
-            if (opcion >= 1 && opcion <= 5) {
-                return opcion - 1;
-            }
-        } catch (NumberFormatException e) {
-        }
-        JOptionPane.showMessageDialog(null, "Seleccione una opcion entre 1 y 5.");
-        return -1;
     }
 }

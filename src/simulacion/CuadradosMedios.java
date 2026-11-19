@@ -1,18 +1,12 @@
 package simulacion;
 
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 public class CuadradosMedios {
-    public static DatosGenerados generar() {
-        String texto = JOptionPane.showInputDialog(null, "Ingrese la semilla X0 (2 a 9 dígitos)");
-        if (texto == null) {
-            return null;
-        }
-        String semilla = texto.trim();
+    public static DatosGenerados generar(String semillaTexto) {
+        String semilla = semillaTexto.trim();
         if (!esSemillaValida(semilla)) {
-            JOptionPane.showMessageDialog(null, "La semilla debe tener de 2 a 9 dígitos y no comenzar con cero.");
-            return null;
+            return new DatosGenerados("La semilla debe tener de 2 a 9 dígitos y no comenzar con cero.");
         }
         long valor = Long.parseLong(semilla);
         int d = semilla.length();
@@ -31,10 +25,10 @@ public class CuadradosMedios {
             double ri = Double.parseDouble("0." + centrales);
             valores.add(ri);
             enteros.add(valor);
-            detalle.append("Iteracion ").append(i + 1).append("\n")
+            detalle.append("Iteración ").append(i + 1).append("\n")
                     .append("Cuadrado: ").append(cuadrado).append("\n")
                     .append("Resultado completo: ").append(resultado).append("\n")
-                    .append("Digitos centrales: ").append(centrales).append("\n")
+                    .append("Dígitos centrales: ").append(centrales).append("\n")
                     .append("ri: ").append(ri).append("\n\n");
             valor = Long.parseLong(centrales);
         }

@@ -4,6 +4,8 @@ Aplicacion Java con Swing para generar numeros pseudoaleatorios y ejecutar prueb
 
 La interfaz utiliza una presentacion institucional verde, tablas legibles y paneles separados para datos, operaciones y pruebas.
 
+Todos los parametros se ingresan directamente en campos de la ventana principal. No se utilizan cuadros de entrada emergentes.
+
 ## Solucion si IntelliJ no muestra el boton de ejecutar
 
 1. Abra el proyecto como proyecto desde la carpeta `SimulacionSau`.

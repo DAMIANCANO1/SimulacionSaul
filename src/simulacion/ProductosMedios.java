@@ -1,27 +1,16 @@
 package simulacion;
 
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 public class ProductosMedios {
-    public static DatosGenerados generar() {
-        String textoUno = JOptionPane.showInputDialog(null, "Ingrese la semilla 1 (2 a 9 dígitos)");
-        if (textoUno == null) {
-            return null;
-        }
-        String textoDos = JOptionPane.showInputDialog(null, "Ingrese la semilla 2 (2 a 9 dígitos)");
-        if (textoDos == null) {
-            return null;
-        }
-        String uno = textoUno.trim();
-        String dos = textoDos.trim();
+    public static DatosGenerados generar(String unoTexto, String dosTexto) {
+        String uno = unoTexto.trim();
+        String dos = dosTexto.trim();
         if (!esSemillaValida(uno) || !esSemillaValida(dos)) {
-            JOptionPane.showMessageDialog(null, "Las semillas deben tener de 2 a 9 dígitos y no comenzar con cero.");
-            return null;
+            return new DatosGenerados("Las semillas deben tener de 2 a 9 dígitos y no comenzar con cero.");
         }
         if (uno.length() != dos.length()) {
-            JOptionPane.showMessageDialog(null, "Las semillas deben tener la misma longitud.");
-            return null;
+            return new DatosGenerados("Las semillas deben tener la misma longitud.");
         }
         long s1 = Long.parseLong(uno);
         long s2 = Long.parseLong(dos);
@@ -41,10 +30,10 @@ public class ProductosMedios {
             double ri = Double.parseDouble("0." + centrales);
             valores.add(ri);
             enteros.add(s1);
-            detalle.append("Iteracion ").append(i + 1).append("\n")
-                    .append("Producto: ").append(s1).append(" * ").append(s2).append(" = ").append(producto).append("\n")
+            detalle.append("Iteración ").append(i + 1).append("\n")
+                    .append("Producto: ").append(s1).append(" × ").append(s2).append(" = ").append(producto).append("\n")
                     .append("Resultado completo: ").append(resultado).append("\n")
-                    .append("Digitos centrales: ").append(centrales).append("\n")
+                    .append("Dígitos centrales: ").append(centrales).append("\n")
                     .append("ri: ").append(ri).append("\n\n");
             s1 = s2;
             s2 = Long.parseLong(centrales);

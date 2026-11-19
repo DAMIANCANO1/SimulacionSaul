@@ -1,52 +1,38 @@
 package simulacion;
 
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 public class CongruencialAditivo {
-    public static DatosGenerados generar() {
-        String textoM = JOptionPane.showInputDialog(null, "Ingrese m (mayor que 1)");
-        if (textoM == null) {
-            return null;
-        }
+    public static DatosGenerados generar(String mTexto, String valoresTexto) {
         long m;
         try {
-            m = Long.parseLong(textoM.trim());
+            m = Long.parseLong(mTexto.trim());
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Ingrese un entero valido.");
-            return null;
+            return new DatosGenerados("Ingrese un entero válido para m.");
         }
         if (m <= 1) {
-            JOptionPane.showMessageDialog(null, "m debe ser mayor que 1.");
-            return null;
+            return new DatosGenerados("m debe ser mayor que 1.");
         }
         ArrayList<Long> iniciales = new ArrayList<Long>();
-        int contador = 0;
-        while (true) {
-            String texto = JOptionPane.showInputDialog(null, "Ingrese X" + contador + " o -1 para terminar");
-            if (texto == null) {
-                return null;
+        String[] partes = valoresTexto.split(",");
+        for (int i = 0; i < partes.length; i++) {
+            String parte = partes[i].trim();
+            if (parte.length() == 0) {
+                continue;
             }
             long numero;
             try {
-                numero = Long.parseLong(texto.trim());
+                numero = Long.parseLong(parte);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Ingrese un entero valido.");
-                continue;
+                return new DatosGenerados("Todos los valores iniciales deben ser enteros.");
             }
-            if (numero == -1) {
-                if (iniciales.size() < 5) {
-                    JOptionPane.showMessageDialog(null, "Debe ingresar al menos 5 valores.");
-                    continue;
-                }
-                break;
+            if (numero < 0 || numero >= m) {
+                return new DatosGenerados("Cada valor inicial debe estar entre 0 y m - 1.");
             }
-            if (numero >= 0 && numero < m) {
-                iniciales.add(numero);
-                contador++;
-            } else {
-                JOptionPane.showMessageDialog(null, "El valor debe estar entre 0 y m - 1.");
-            }
+            iniciales.add(numero);
+        }
+        if (iniciales.size() < 5) {
+            return new DatosGenerados("Debe ingresar al menos 5 valores separados por comas.");
         }
         int n = iniciales.size();
         ArrayList<Double> valores = new ArrayList<Double>();
@@ -59,7 +45,7 @@ public class CongruencialAditivo {
             valores.add(ri);
             enteros.add(x);
             iniciales.add(x);
-            detalle.append("X").append(contador + i).append(" = ").append(x)
+            detalle.append("X").append(i + 1).append(" = ").append(x)
                     .append("  r = ").append(ri).append("\n");
         }
         return new DatosGenerados(valores, enteros, detalle.toString());

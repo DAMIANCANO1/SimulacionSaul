@@ -1,48 +1,30 @@
 package simulacion;
 
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 public class CongruencialMultiplicativo {
-    public static DatosGenerados generar() {
-        String textoX = JOptionPane.showInputDialog(null, "Ingrese X mayor que 0");
-        if (textoX == null) {
-            return null;
-        }
-        String textoK = JOptionPane.showInputDialog(null, "Ingrese K no negativo");
-        if (textoK == null) {
-            return null;
-        }
-        String textoG = JOptionPane.showInputDialog(null, "Ingrese G entre 1 y 30");
-        if (textoG == null) {
-            return null;
-        }
+    public static DatosGenerados generar(String xTexto, String kTexto, String gTexto) {
         long x;
         long k;
         int g;
         try {
-            x = Long.parseLong(textoX.trim());
-            k = Long.parseLong(textoK.trim());
-            g = Integer.parseInt(textoG.trim());
+            x = Long.parseLong(xTexto.trim());
+            k = Long.parseLong(kTexto.trim());
+            g = Integer.parseInt(gTexto.trim());
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Todas las entradas deben ser enteros.");
-            return null;
+            return new DatosGenerados("Todas las entradas deben ser enteros.");
         }
         if (x <= 0 || k < 0 || g < 1 || g > 30) {
-            JOptionPane.showMessageDialog(null, "X debe ser mayor que 0, K no negativo y G entre 1 y 30.");
-            return null;
+            return new DatosGenerados("X debe ser mayor que 0, K no negativo y G entre 1 y 30.");
         }
         long m = 1L << g;
         if (x >= m) {
-            JOptionPane.showMessageDialog(null, "X debe ser menor que m = 2^G.");
-            return null;
+            return new DatosGenerados("X debe ser menor que m = 2^G.");
         }
         if (k > (Long.MAX_VALUE - 3L) / 8L) {
-            JOptionPane.showMessageDialog(null, "El valor de K es demasiado grande.");
-            return null;
+            return new DatosGenerados("El valor de K es demasiado grande.");
         }
         long a = 3L + 8L * k;
-        a = a % m;
         ArrayList<Long> vistos = new ArrayList<Long>();
         ArrayList<Double> valores = new ArrayList<Double>();
         ArrayList<Long> enteros = new ArrayList<Long>();

@@ -9,17 +9,19 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -35,6 +37,27 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
     private JButton botonProbar;
     private JButton botonLimpiar;
     private JButton botonSalir;
+    private JPanel panelParametros;
+    private JLabel etiquetaParametroUno;
+    private JLabel etiquetaParametroDos;
+    private JLabel etiquetaParametroTres;
+    private JLabel etiquetaParametroCuatro;
+    private JLabel etiquetaParametroCinco;
+    private JLabel etiquetaNivel;
+    private JLabel etiquetaValoresIniciales;
+    private JLabel etiquetaAlfa;
+    private JLabel etiquetaBeta;
+    private JLabel etiquetaDecimales;
+    private JTextField campoParametroUno;
+    private JTextField campoParametroDos;
+    private JTextField campoParametroTres;
+    private JTextField campoParametroCuatro;
+    private JTextField campoParametroCinco;
+    private JTextField campoValoresIniciales;
+    private JTextField campoAlfa;
+    private JTextField campoBeta;
+    private JComboBox<String> campoNivel;
+    private JComboBox<String> campoDecimales;
     private ArrayList<Double> datosGenerados;
     private ArrayList<Long> enterosGenerados;
 
@@ -159,6 +182,21 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
         selectorPrueba.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         panel.add(selectorPrueba, restricciones);
 
+        restricciones.gridy = 5;
+        restricciones.insets = new Insets(2, 0, 8, 0);
+        panel.add(crearPanelParametros(), restricciones);
+
+        selectorGenerador.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent evento) {
+                actualizarParametrosGenerador();
+            }
+        });
+        selectorPrueba.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent evento) {
+                actualizarParametrosPrueba();
+            }
+        });
+
         JPanel botonesAccion = new JPanel(new GridBagLayout());
         botonesAccion.setOpaque(false);
         GridBagConstraints botones = new GridBagConstraints();
@@ -175,7 +213,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
         botonProbar = crearBoton("Ejecutar prueba", new Color(32, 112, 84));
         botonesAccion.add(botonProbar, botones);
 
-        restricciones.gridy = 5;
+        restricciones.gridy = 6;
         restricciones.insets = new Insets(0, 0, 12, 0);
         panel.add(botonesAccion, restricciones);
 
@@ -195,7 +233,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 
         JScrollPane desplazamientoTabla = new JScrollPane(tablaNumeros);
         desplazamientoTabla.setBorder(BorderFactory.createLineBorder(new Color(196, 218, 205)));
-        restricciones.gridy = 6;
+        restricciones.gridy = 7;
         restricciones.weighty = 1.0;
         restricciones.fill = GridBagConstraints.BOTH;
         restricciones.insets = new Insets(0, 0, 0, 0);
@@ -224,6 +262,172 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
         desplazamientoCalculos.setBorder(BorderFactory.createLineBorder(new Color(210, 225, 216)));
         panel.add(desplazamientoCalculos, BorderLayout.CENTER);
         return panel;
+    }
+
+    private JPanel crearPanelParametros() {
+        panelParametros = new JPanel(new GridBagLayout());
+        panelParametros.setOpaque(false);
+        panelParametros.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(new Color(196, 218, 205)),
+                "Parámetros"));
+        GridBagConstraints restricciones = new GridBagConstraints();
+        restricciones.fill = GridBagConstraints.HORIZONTAL;
+        restricciones.weightx = 1.0;
+        restricciones.insets = new Insets(3, 5, 3, 5);
+
+        etiquetaParametroUno = crearEtiqueta("Parámetro 1");
+        etiquetaParametroDos = crearEtiqueta("Parámetro 2");
+        etiquetaParametroTres = crearEtiqueta("Parámetro 3");
+        etiquetaParametroCuatro = crearEtiqueta("Parámetro 4");
+        etiquetaParametroCinco = crearEtiqueta("Parámetro 5");
+        etiquetaNivel = crearEtiqueta("Nivel de confianza");
+        etiquetaValoresIniciales = crearEtiqueta("Valores iniciales");
+        etiquetaAlfa = crearEtiqueta("Alfa");
+        etiquetaBeta = crearEtiqueta("Beta");
+        etiquetaDecimales = crearEtiqueta("Decimales");
+
+        campoParametroUno = new JTextField();
+        campoParametroDos = new JTextField();
+        campoParametroTres = new JTextField();
+        campoParametroCuatro = new JTextField();
+        campoParametroCinco = new JTextField();
+        campoValoresIniciales = new JTextField();
+        campoAlfa = new JTextField();
+        campoBeta = new JTextField();
+        campoNivel = new JComboBox<String>();
+        campoNivel.addItem("80%");
+        campoNivel.addItem("85%");
+        campoNivel.addItem("90%");
+        campoNivel.addItem("95%");
+        campoNivel.addItem("99%");
+        campoDecimales = new JComboBox<String>();
+        campoDecimales.addItem("3");
+        campoDecimales.addItem("4");
+        campoDecimales.addItem("5");
+
+        agregarCampoParametro(restricciones, 0, etiquetaParametroUno, campoParametroUno);
+        agregarCampoParametro(restricciones, 1, etiquetaParametroDos, campoParametroDos);
+        agregarCampoParametro(restricciones, 2, etiquetaParametroTres, campoParametroTres);
+        agregarCampoParametro(restricciones, 3, etiquetaParametroCuatro, campoParametroCuatro);
+        agregarCampoParametro(restricciones, 4, etiquetaParametroCinco, campoParametroCinco);
+        agregarCampoParametro(restricciones, 5, etiquetaValoresIniciales, campoValoresIniciales);
+        agregarCampoParametro(restricciones, 6, etiquetaAlfa, campoAlfa);
+        agregarCampoParametro(restricciones, 7, etiquetaBeta, campoBeta);
+        agregarCampoParametro(restricciones, 8, etiquetaNivel, campoNivel);
+        agregarCampoParametro(restricciones, 9, etiquetaDecimales, campoDecimales);
+        actualizarParametrosGenerador();
+        actualizarParametrosPrueba();
+        return panelParametros;
+    }
+
+    private void agregarCampoParametro(GridBagConstraints restricciones, int fila, JLabel etiqueta, JTextField campo) {
+        restricciones.gridx = 0;
+        restricciones.gridy = fila;
+        restricciones.weightx = 0.38;
+        panelParametros.add(etiqueta, restricciones);
+        restricciones.gridx = 1;
+        restricciones.weightx = 0.62;
+        panelParametros.add(campo, restricciones);
+    }
+
+    private void agregarCampoParametro(GridBagConstraints restricciones, int fila, JLabel etiqueta, JComboBox<String> campo) {
+        restricciones.gridx = 0;
+        restricciones.gridy = fila;
+        restricciones.weightx = 0.38;
+        panelParametros.add(etiqueta, restricciones);
+        restricciones.gridx = 1;
+        restricciones.weightx = 0.62;
+        panelParametros.add(campo, restricciones);
+    }
+
+    private void actualizarParametrosGenerador() {
+        int opcion = selectorGenerador.getSelectedIndex();
+        ocultarTodosLosParametros();
+        if (opcion == 0) {
+            mostrarValor(etiquetaParametroUno, campoParametroUno, "m");
+            mostrarValor(etiquetaValoresIniciales, campoValoresIniciales, "Valores iniciales");
+        } else if (opcion == 1) {
+            mostrarValor(etiquetaParametroUno, campoParametroUno, "X");
+            mostrarValor(etiquetaParametroDos, campoParametroDos, "K");
+            mostrarValor(etiquetaParametroTres, campoParametroTres, "G");
+        } else if (opcion == 2) {
+            mostrarValor(etiquetaParametroUno, campoParametroUno, "X0");
+            mostrarValor(etiquetaParametroDos, campoParametroDos, "m");
+            mostrarValor(etiquetaParametroTres, campoParametroTres, "a");
+            mostrarValor(etiquetaParametroCuatro, campoParametroCuatro, "b");
+            mostrarValor(etiquetaParametroCinco, campoParametroCinco, "c");
+        } else if (opcion == 3) {
+            mostrarValor(etiquetaParametroUno, campoParametroUno, "Semilla 1");
+            mostrarValor(etiquetaParametroDos, campoParametroDos, "Semilla 2");
+        } else if (opcion == 4) {
+            mostrarValor(etiquetaParametroUno, campoParametroUno, "Semilla X0");
+        } else if (opcion == 5) {
+            mostrarValor(etiquetaParametroUno, campoParametroUno, "Semilla constante");
+            mostrarValor(etiquetaParametroDos, campoParametroDos, "Semilla variable");
+        } else if (opcion == 6) {
+            mostrarValor(etiquetaParametroUno, campoParametroUno, "X0");
+            mostrarValor(etiquetaParametroDos, campoParametroDos, "a");
+            mostrarValor(etiquetaParametroTres, campoParametroTres, "c");
+            mostrarValor(etiquetaParametroCuatro, campoParametroCuatro, "m");
+        }
+        panelParametros.revalidate();
+        panelParametros.repaint();
+    }
+
+    private void ocultarTodosLosParametros() {
+        etiquetaParametroUno.setVisible(false);
+        etiquetaParametroDos.setVisible(false);
+        etiquetaParametroTres.setVisible(false);
+        etiquetaParametroCuatro.setVisible(false);
+        etiquetaParametroCinco.setVisible(false);
+        campoParametroUno.setVisible(false);
+        campoParametroDos.setVisible(false);
+        campoParametroTres.setVisible(false);
+        campoParametroCuatro.setVisible(false);
+        campoParametroCinco.setVisible(false);
+        campoValoresIniciales.setVisible(false);
+        campoAlfa.setVisible(false);
+        campoBeta.setVisible(false);
+        etiquetaValoresIniciales.setVisible(false);
+        etiquetaAlfa.setVisible(false);
+        etiquetaBeta.setVisible(false);
+        etiquetaNivel.setVisible(false);
+        campoNivel.setVisible(false);
+        etiquetaDecimales.setVisible(false);
+        campoDecimales.setVisible(false);
+    }
+
+    private void mostrarValor(JLabel etiqueta, JTextField campo, String nombre) {
+        etiqueta.setText(nombre);
+        etiqueta.setVisible(true);
+        campo.setVisible(true);
+    }
+
+    private void actualizarParametrosPrueba() {
+        int opcion = selectorPrueba.getSelectedIndex();
+        campoNivel.removeAllItems();
+        if (opcion == 0 || opcion == 3 || opcion == 4 || opcion == 5) {
+            campoNivel.addItem("80%");
+            campoNivel.addItem("85%");
+            campoNivel.addItem("90%");
+            campoNivel.addItem("95%");
+            campoNivel.addItem("99%");
+        } else {
+            campoNivel.addItem("80%");
+            campoNivel.addItem("90%");
+            campoNivel.addItem("95%");
+            campoNivel.addItem("99%");
+        }
+        etiquetaNivel.setVisible(true);
+        campoNivel.setVisible(true);
+        campoDecimales.setVisible(opcion == 6);
+        campoAlfa.setVisible(opcion == 7);
+        campoBeta.setVisible(opcion == 7);
+        etiquetaDecimales.setVisible(opcion == 6);
+        etiquetaAlfa.setVisible(opcion == 7);
+        etiquetaBeta.setVisible(opcion == 7);
+        panelParametros.revalidate();
+        panelParametros.repaint();
     }
 
     private JLabel crearEtiqueta(String texto) {
@@ -281,22 +485,27 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
         DatosGenerados resultado = null;
         int opcion = selectorGenerador.getSelectedIndex();
         if (opcion == 0) {
-            resultado = CongruencialAditivo.generar();
+            resultado = CongruencialAditivo.generar(campoParametroUno.getText(), campoValoresIniciales.getText());
         } else if (opcion == 1) {
-            resultado = CongruencialMultiplicativo.generar();
+            resultado = CongruencialMultiplicativo.generar(campoParametroUno.getText(), campoParametroDos.getText(), campoParametroTres.getText());
         } else if (opcion == 2) {
-            resultado = CongruencialCuadratico.generar();
+            resultado = CongruencialCuadratico.generar(campoParametroUno.getText(), campoParametroDos.getText(), campoParametroTres.getText(), campoParametroCuatro.getText(), campoParametroCinco.getText());
         } else if (opcion == 3) {
-            resultado = ProductosMedios.generar();
+            resultado = ProductosMedios.generar(campoParametroUno.getText(), campoParametroDos.getText());
         } else if (opcion == 4) {
-            resultado = CuadradosMedios.generar();
+            resultado = CuadradosMedios.generar(campoParametroUno.getText());
         } else if (opcion == 5) {
-            resultado = MultiplicadorConstante.generar();
+            resultado = MultiplicadorConstante.generar(campoParametroUno.getText(), campoParametroDos.getText());
         } else if (opcion == 6) {
-            resultado = CongruencialLineal.generar();
+            resultado = CongruencialLineal.generar(campoParametroUno.getText(), campoParametroDos.getText(), campoParametroTres.getText(), campoParametroCuatro.getText());
         }
         if (resultado == null) {
             etiquetaEstado.setText("La generación fue cancelada o contiene datos inválidos.");
+            return;
+        }
+        if (!resultado.getError().isEmpty()) {
+            areaCalculos.setText(resultado.getError());
+            etiquetaEstado.setText("Datos inválidos. Revise los parámetros.");
             return;
         }
         datosGenerados = resultado.getValores();
@@ -324,31 +533,40 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 
     private void ejecutarPrueba() {
         if (datosGenerados == null || datosGenerados.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "Primero debe generar datos.",
-                    "Sin datos",
-                    JOptionPane.WARNING_MESSAGE);
             etiquetaEstado.setText("No hay datos disponibles para ejecutar una prueba.");
+            areaCalculos.setText("Primero debe generar datos.");
             return;
         }
         String resultado = null;
         int opcion = selectorPrueba.getSelectedIndex();
+        int nivel = campoNivel.getSelectedIndex();
         if (opcion == 0) {
-            resultado = PruebaMedias.ejecutar(datosGenerados);
+            resultado = PruebaMedias.ejecutar(datosGenerados, nivel);
         } else if (opcion == 1) {
-            resultado = PruebaVarianza.ejecutar(datosGenerados);
+            nivel = obtenerNivelCuatro();
+            resultado = PruebaVarianza.ejecutar(datosGenerados, nivel);
         } else if (opcion == 2) {
-            resultado = PruebaChiCuadrada.ejecutar(datosGenerados);
+            nivel = obtenerNivelCuatro();
+            resultado = PruebaChiCuadrada.ejecutar(datosGenerados, nivel);
         } else if (opcion == 3) {
-            resultado = PruebaKolmogorov.ejecutar(datosGenerados);
+            resultado = PruebaKolmogorov.ejecutar(datosGenerados, nivel);
         } else if (opcion == 4) {
-            resultado = PruebaCorridas.ejecutar(datosGenerados);
+            resultado = PruebaCorridas.ejecutar(datosGenerados, nivel);
         } else if (opcion == 5) {
-            resultado = PruebaCorridasMedia.ejecutar(datosGenerados);
+            resultado = PruebaCorridasMedia.ejecutar(datosGenerados, nivel);
         } else if (opcion == 6) {
-            resultado = PruebaPoker.ejecutar(datosGenerados);
+            nivel = obtenerNivelCuatro();
+            int decimales = Integer.parseInt(campoDecimales.getSelectedItem().toString());
+            resultado = PruebaPoker.ejecutar(datosGenerados, decimales, nivel);
         } else if (opcion == 7) {
-            resultado = PruebaHuecos.ejecutar(datosGenerados);
+            nivel = obtenerNivelCuatro();
+            try {
+                double alfa = Double.parseDouble(campoAlfa.getText().trim());
+                double beta = Double.parseDouble(campoBeta.getText().trim());
+                resultado = PruebaHuecos.ejecutar(datosGenerados, alfa, beta, nivel);
+            } catch (NumberFormatException e) {
+                resultado = "Alfa y beta deben ser números válidos.";
+            }
         }
         if (resultado != null) {
             areaCalculos.setText(resultado);
@@ -357,6 +575,14 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
         } else {
             etiquetaEstado.setText("La prueba fue cancelada.");
         }
+    }
+
+    private int obtenerNivelCuatro() {
+        String texto = campoNivel.getSelectedItem().toString();
+        if (texto.equals("80%")) return 0;
+        if (texto.equals("90%")) return 1;
+        if (texto.equals("95%")) return 2;
+        return 3;
     }
 
     private void limpiar() {

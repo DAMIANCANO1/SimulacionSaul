@@ -2,16 +2,11 @@ package simulacion;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 public class PruebaMedias {
-    public static String ejecutar(ArrayList<Double> datos) {
+    public static String ejecutar(ArrayList<Double> datos, int opcion) {
         if (datos == null || datos.isEmpty()) {
             return "No hay datos para realizar la prueba.";
-        }
-        int opcion = pedirNivel();
-        if (opcion == -1) {
-            return null;
         }
         double[] valoresZ = {1.28, 1.44, 1.64, 1.96, 2.58};
         String[] niveles = {"80%", "85%", "90%", "95%", "99%"};
@@ -27,8 +22,8 @@ public class PruebaMedias {
         resultado.append("PRUEBA DE MEDIAS\n\nDatos utilizados:\n");
         resultado.append(formatoLista(datos, formato));
         resultado.append("\nMedia = suma(ri) / n = ").append(formato.format(media));
-        resultado.append("\nLimite inferior = ").append(formato.format(limiteInferior));
-        resultado.append("\nLimite superior = ").append(formato.format(limiteSuperior));
+        resultado.append("\nLímite inferior = ").append(formato.format(limiteInferior));
+        resultado.append("\nLímite superior = ").append(formato.format(limiteSuperior));
         resultado.append("\nNivel de confianza = ").append(niveles[opcion]);
         resultado.append("\nZ = ").append(valoresZ[opcion]);
         resultado.append("\n\nH0: la media poblacional es 0.5.");
@@ -49,22 +44,5 @@ public class PruebaMedias {
             }
         }
         return texto.toString();
-    }
-
-    private static int pedirNivel() {
-        String texto = JOptionPane.showInputDialog(null,
-                "Seleccione el nivel de confianza:\n1: 80%\n2: 85%\n3: 90%\n4: 95%\n5: 99%");
-        if (texto == null) {
-            return -1;
-        }
-        try {
-            int opcion = Integer.parseInt(texto.trim());
-            if (opcion >= 1 && opcion <= 5) {
-                return opcion - 1;
-            }
-        } catch (NumberFormatException e) {
-        }
-        JOptionPane.showMessageDialog(null, "Seleccione una opcion entre 1 y 5.");
-        return -1;
     }
 }

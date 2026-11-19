@@ -1,31 +1,20 @@
 package simulacion;
 
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 public class MultiplicadorConstante {
-    public static DatosGenerados generar() {
-        String textoConstante = JOptionPane.showInputDialog(null, "Ingrese la semilla constante (2 a 9 dígitos)");
-        if (textoConstante == null) {
-            return null;
+    public static DatosGenerados generar(String constanteTexto, String variableTexto) {
+        String constanteCadena = constanteTexto.trim();
+        String variableCadena = variableTexto.trim();
+        if (!esSemillaValida(constanteCadena) || !esSemillaValida(variableCadena)) {
+            return new DatosGenerados("Las semillas deben tener de 2 a 9 dígitos y no comenzar con cero.");
         }
-        String textoVariable = JOptionPane.showInputDialog(null, "Ingrese la semilla variable (2 a 9 dígitos)");
-        if (textoVariable == null) {
-            return null;
+        if (constanteCadena.length() != variableCadena.length()) {
+            return new DatosGenerados("Las semillas deben tener la misma longitud.");
         }
-        String constanteTexto = textoConstante.trim();
-        String variableTexto = textoVariable.trim();
-        if (!esSemillaValida(constanteTexto) || !esSemillaValida(variableTexto)) {
-            JOptionPane.showMessageDialog(null, "Las semillas deben tener de 2 a 9 dígitos y no comenzar con cero.");
-            return null;
-        }
-        if (constanteTexto.length() != variableTexto.length()) {
-            JOptionPane.showMessageDialog(null, "Las semillas deben tener la misma longitud.");
-            return null;
-        }
-        long constante = Long.parseLong(constanteTexto);
-        long variable = Long.parseLong(variableTexto);
-        int d = constanteTexto.length();
+        long constante = Long.parseLong(constanteCadena);
+        long variable = Long.parseLong(variableCadena);
+        int d = constanteCadena.length();
         ArrayList<Double> valores = new ArrayList<Double>();
         ArrayList<Long> enteros = new ArrayList<Long>();
         StringBuilder detalle = new StringBuilder();
@@ -41,10 +30,10 @@ public class MultiplicadorConstante {
             double ri = Double.parseDouble("0." + centrales);
             valores.add(ri);
             enteros.add(variable);
-            detalle.append("Iteracion ").append(i + 1).append("\n")
-                    .append("Multiplicacion: ").append(constante).append(" * ").append(variable).append(" = ").append(multiplicacion).append("\n")
+            detalle.append("Iteración ").append(i + 1).append("\n")
+                    .append("Multiplicación: ").append(constante).append(" × ").append(variable).append(" = ").append(multiplicacion).append("\n")
                     .append("Resultado completo: ").append(resultado).append("\n")
-                    .append("Digitos centrales: ").append(centrales).append("\n")
+                    .append("Dígitos centrales: ").append(centrales).append("\n")
                     .append("ri: ").append(ri).append("\n\n");
             variable = Long.parseLong(centrales);
         }
