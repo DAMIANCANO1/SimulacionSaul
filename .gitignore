@@ -4,6 +4,7 @@ nbproject/private/
 *.class
 out/
 .idea/workspace.xml
+.idea/vcs.xml
 .idea/tasks.xml
 .idea/dictionaries/
 .idea/shelf/
