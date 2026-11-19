@@ -2,6 +2,8 @@
 
 Aplicacion Java con Swing para generar numeros pseudoaleatorios y ejecutar pruebas estadisticas. No utiliza Maven, Gradle ni dependencias externas.
 
+La interfaz utiliza una presentacion institucional verde, tablas legibles y paneles separados para datos, operaciones y pruebas.
+
 ## Metodos de generacion
 
 - Congruencial aditivo
